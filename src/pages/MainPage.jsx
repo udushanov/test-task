@@ -12,7 +12,6 @@ export default function MainPage() {
       const response = await axios.get(
         "https://jsonplaceholder.typicode.com/posts?_limit=10"
       );
-      console.log(response.data);
       setPosts(response.data);
     } catch (err) {
       console.log(err);
