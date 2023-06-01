@@ -1,28 +1,22 @@
 import './App.css'
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Button } from "react-bootstrap";
+import { Route, Routes } from "react-router-dom";
+import Header from './components/Header';
+import MainPage from './pages/MainPage';
+import AboutPage from './pages/AboutPage';
+import UserPage from './pages/UserPage';
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <div>Hello world!</div>,
-  },
-  {
-    path: "/about-me",
-    element: <div>about</div>,
-  },
-  {
-    path: "/user-details",
-    element: <div>details</div>,
-  },
-]);
+
+
 
 function App() {
   return (
     <>
-      <Button>Hello</Button>
-      <RouterProvider router={router} />
+      <Header />
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/about-me" element={<AboutPage />} />
+        <Route path="/user-details" element={<UserPage />} />
+      </Routes>
     </>
   );
 }
