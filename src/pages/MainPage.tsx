@@ -28,7 +28,7 @@ export default function MainPage() {
       <Container style={{ marginTop: "80px" }}>
         <Row>
           <Col>
-            <h1>Список постов</h1>
+            <h1 style={{marginBottom: '20px'}}>Post's list</h1>
             {posts.map((post) => (
               <Post key={post.id} post={post} />
             ))}
