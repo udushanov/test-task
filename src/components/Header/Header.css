@@ -1,14 +1,12 @@
 .Link {
   text-decoration: none;
   color: #000000;
-  /* margin-right: 20px; */
   transition: 0.3s ease color;
 }
 
 .Active {
   text-decoration: none;
   color: #ffc107;
-  /* margin-right: 20px; */
 }
 
 .Link:hover {

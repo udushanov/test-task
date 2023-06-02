@@ -1,8 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
@@ -14,15 +12,6 @@ export default function Header() {
     <>
       <Navbar bg="warning" expand={false} className="mb-3">
         <Container fluid className="d-flex justify-content-end">
-          <Form className="d-flex me-5">
-            <Form.Control
-              type="search"
-              placeholder="Search"
-              className="me-2"
-              aria-label="Search"
-            />
-            <Button variant="outline-secondary">Search</Button>
-          </Form>
           <Navbar.Toggle />
           <Navbar.Offcanvas placement="end">
             <Offcanvas.Header closeButton>
