@@ -12,3 +12,9 @@
 .Link:hover {
   color: #ffc107;
 }
+
+.Img {
+  height: 80px;
+  width: 80px;
+  margin: 20px;
+}

@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Container, Row, Col } from "react-bootstrap";
-import Post from "../components/Post/Post";
-import Loader from "../components/Loader/Loader";
-import SearchBar from "../components/SearchBar/SearchBar";
+import Post from "../components/Post";
+import Loader from "../components/Loader";
+import SearchBar from "../components/SearchBar";
 import Form from "react-bootstrap/Form";
 import Pagination from "react-bootstrap/Pagination";
+import ErrorBoundary from "../components/ErrorBoundary";
 
 export default function MainPage() {
   const [posts, setPosts] = useState([]);
+  const [error, setError] = useState("");
   const [loader, setLoader] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [page, setPage] = useState(1);
@@ -17,6 +19,7 @@ export default function MainPage() {
 
   async function fetchPosts() {
     try {
+      setError("");
       setLoader(true);
       const response = await axios.get(
         "https://jsonplaceholder.typicode.com/posts",
@@ -36,7 +39,8 @@ export default function MainPage() {
       }, 500);
       setLoader(false);
     } catch (err) {
-      console.log(err);
+      setLoader(false);
+      setError(err.message);
     }
   }
 
@@ -122,6 +126,7 @@ export default function MainPage() {
         </Row>
         <Col>
           {loader && <Loader />}
+          {error && <ErrorBoundary error={error} />}
           {posts
             .filter((post) =>
               post.title
@@ -132,15 +137,17 @@ export default function MainPage() {
               <Post key={post.id} post={post} />
             ))}
         </Col>
-        <Col className="d-flex justify-content-center">
-          <Pagination>
-            <Pagination.First onClick={() => setPage(1)} />
-            <Pagination.Prev onClick={pageDecerement} />
-            <Pagination.Item>{page}</Pagination.Item>
-            <Pagination.Next onClick={pageIncerement} />
-            <Pagination.Last onClick={() => setPage(totalPages)} />
-          </Pagination>
-        </Col>
+        {!error && (
+          <Col className="d-flex justify-content-center">
+            <Pagination>
+              <Pagination.First onClick={() => setPage(1)} />
+              <Pagination.Prev onClick={pageDecerement} />
+              <Pagination.Item>{page}</Pagination.Item>
+              <Pagination.Next onClick={pageIncerement} />
+              <Pagination.Last onClick={() => setPage(totalPages)} />
+            </Pagination>
+          </Col>
+        )}
       </Container>
     </>
   );

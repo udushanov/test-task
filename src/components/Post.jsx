@@ -1,29 +1,31 @@
 import React, { useEffect, useState } from "react";
-import Comment from "../Comment/Comment";
+import Comment from "./Comment";
 import Card from "react-bootstrap/Card";
 import { Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Accordion from "react-bootstrap/Accordion";
-import axios from 'axios';
-import "./Post.css";
+import axios from "axios";
+import ErrorBoundary from "./ErrorBoundary";
 
 export default function Post({ post }) {
   const [comments, setComments] = useState([]);
+  const [error, setError] = useState("");
 
   async function fetchComments(id) {
     try {
+      setError("");
       const response = await axios.get(
         `https://jsonplaceholder.typicode.com/posts/${id}/comments`
       );
-      setComments(response.data);  
-    } catch(err) {
-      console.log(err);
+      setComments(response.data);
+    } catch (err) {
+      setError(err.message);
     }
   }
 
   useEffect(() => {
-    fetchComments(post.id)
-  }, [])
+    fetchComments(post.id);
+  }, []);
 
   return (
     <Card style={{ marginBottom: "20px" }}>
@@ -50,6 +52,7 @@ export default function Post({ post }) {
         <Accordion.Item eventKey="1">
           <Accordion.Header>Comments</Accordion.Header>
           <Accordion.Body>
+            {error && <ErrorBoundary error={error} />}
             {comments.map((comment) => (
               <Comment comment={comment} key={comment.id} />
             ))}

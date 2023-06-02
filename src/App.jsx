@@ -1,8 +1,9 @@
 import { Route, Routes } from "react-router-dom";
-import Header from './components/Header/Header';
-import MainPage from './pages/MainPage';
-import AboutPage from './pages/AboutPage';
-import UserPage from './pages/UserPage';
+import Header from "./components/Header";
+import MainPage from "./pages/MainPage";
+import AboutPage from "./pages/AboutPage";
+import UserPage from "./pages/UserPage";
+import "./App.css";
 
 function App() {
   return (
@@ -17,4 +18,4 @@ function App() {
   );
 }
 
-export default App
+export default App;
