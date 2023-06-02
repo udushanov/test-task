@@ -6,7 +6,6 @@ export default function Comment({ comment }) {
     <>
       <Col>
         <p>
-          User name: <strong>{comment.name}</strong>, email:{" "}
           <a
             href={`mailto:${comment.email}`}
             style={{ color: "#000"}}
