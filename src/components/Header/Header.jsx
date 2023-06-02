@@ -1,39 +1,77 @@
 import React from "react";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
-import { Container } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import "./Header.css"
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import Offcanvas from "react-bootstrap/Offcanvas";
+import { Card, Col } from "react-bootstrap";
+import "./Header.css";
 
 export default function Header() {
   return (
-    <Navbar
-      bg="warning"
-      expand="lg"
-      className="position-absolute top-0 start-0 end-0 d-flex align-items-center"
-    >
-      <Container className="justify-content-end">
-        <Nav className="Navbar">
-          <NavLink
-            className={({ isActive }) => (isActive ? "Active" : "Link")}
-            to="/"
-          >
-            Posts
-          </NavLink>
-          <NavLink
-            className={({ isActive }) => (isActive ? "Active" : "Link")}
-            to="/about-me"
-          >
-            About me
-          </NavLink>
-          <NavLink
-            className={({ isActive }) => (isActive ? "Active" : "Link")}
-            to="/user-details"
-          >
-            User details
-          </NavLink>
-        </Nav>
-      </Container>
-    </Navbar>
+    <>
+      <Navbar bg="warning" expand={false} className="mb-3">
+        <Container fluid className="d-flex justify-content-end">
+          <Form className="d-flex me-5">
+            <Form.Control
+              type="search"
+              placeholder="Search"
+              className="me-2"
+              aria-label="Search"
+            />
+            <Button variant="outline-secondary">Search</Button>
+          </Form>
+          <Navbar.Toggle />
+          <Navbar.Offcanvas placement="end">
+            <Offcanvas.Header closeButton>
+              <Card style={{ border: "none" }}>
+                <Col className="d-flex align-items-center">
+                  <Card.Img
+                    variant="top"
+                    src="src/assets/user-profile-icon-free-vector.jpg"
+                    style={{
+                      height: "32px",
+                      width: "32px",
+                      marginRight: "15px",
+                    }}
+                  />
+                  <Card.Body className="d-flex flex-column p-0">
+                    <h5>Ulugbek</h5>
+                    <Card.Text>
+                      <a
+                        href="mailto:u.dushanov@gmail.com"
+                        style={{ color: "#000" }}
+                      >
+                        <strong>u.dushanov@gmail.com</strong>
+                      </a>
+                    </Card.Text>
+                  </Card.Body>
+                </Col>
+              </Card>
+            </Offcanvas.Header>
+            <hr />
+            <Offcanvas.Body>
+              <Nav className="justify-content-end flex-grow-1 pe-3 fs-5">
+                <NavLink
+                  className={({ isActive }) => (isActive ? "Active" : "Link")}
+                  to="/"
+                  style={{ marginBottom: "20px" }}
+                >
+                  Posts
+                </NavLink>
+                <NavLink
+                  className={({ isActive }) => (isActive ? "Active" : "Link")}
+                  to="/about-me"
+                >
+                  About me
+                </NavLink>
+              </Nav>
+            </Offcanvas.Body>
+          </Navbar.Offcanvas>
+        </Container>
+      </Navbar>
+    </>
   );
 }

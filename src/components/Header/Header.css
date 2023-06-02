@@ -1,21 +1,16 @@
-.Navbar {
-  font-size: 20px;
-  padding: 10px 0;
-}
-
 .Link {
   text-decoration: none;
   color: #000000;
-  margin-right: 20px;
+  /* margin-right: 20px; */
   transition: 0.3s ease color;
 }
 
 .Active {
   text-decoration: none;
-  color: #ffffff;
-  margin-right: 20px;
+  color: #ffc107;
+  /* margin-right: 20px; */
 }
 
 .Link:hover {
-  color: #ffffff;
+  color: #ffc107;
 }
