@@ -3,21 +3,34 @@ import axios from "axios";
 import { Container, Row, Col } from "react-bootstrap";
 import Post from "../components/Post/Post";
 import Loader from "../components/Loader/Loader";
-import NavDropdown from "react-bootstrap/NavDropdown";
 import SearchBar from "../components/SearchBar/SearchBar";
 import Form from "react-bootstrap/Form";
+import Pagination from "react-bootstrap/Pagination";
 
 export default function MainPage() {
   const [posts, setPosts] = useState([]);
   const [loader, setLoader] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const limit = 10;
 
   async function fetchPosts() {
     try {
       setLoader(true);
       const response = await axios.get(
-        "https://jsonplaceholder.typicode.com/posts?_limit=10"
+        "https://jsonplaceholder.typicode.com/posts",
+        {
+          params: {
+            _page: page,
+            _limit: limit,
+          },
+        }
       );
+
+      const countPages = Math.ceil(response.headers["x-total-count"] / limit);
+      setTotalPages(countPages);
+
       setTimeout(() => {
         setPosts(response.data);
       }, 500);
@@ -29,7 +42,6 @@ export default function MainPage() {
 
   const sortHandler = (event) => {
     const order = event.target.value;
-
     let sortedPosts = [...posts];
 
     if (order === "1") {
@@ -44,7 +56,7 @@ export default function MainPage() {
 
         return 0;
       });
-    } 
+    }
 
     if (order === "2") {
       sortedPosts.sort((a, b) => {
@@ -65,7 +77,23 @@ export default function MainPage() {
 
   useEffect(() => {
     fetchPosts();
-  }, []);
+  }, [page]);
+
+  const pageIncerement = () => {
+    if (page < totalPages) {
+      setPage(page + 1);
+    }
+
+    return;
+  };
+
+  const pageDecerement = () => {
+    if (page > 1) {
+      setPage(page - 1);
+    }
+
+    return;
+  };
 
   return (
     <>
@@ -103,6 +131,15 @@ export default function MainPage() {
             .map((post) => (
               <Post key={post.id} post={post} />
             ))}
+        </Col>
+        <Col className="d-flex justify-content-center">
+          <Pagination>
+            <Pagination.First onClick={() => setPage(1)} />
+            <Pagination.Prev onClick={pageDecerement} />
+            <Pagination.Item>{page}</Pagination.Item>
+            <Pagination.Next onClick={pageIncerement} />
+            <Pagination.Last onClick={() => setPage(totalPages)} />
+          </Pagination>
         </Col>
       </Container>
     </>
