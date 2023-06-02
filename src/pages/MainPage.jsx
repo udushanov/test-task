@@ -5,6 +5,7 @@ import Post from "../components/Post/Post";
 import Loader from "../components/Loader/Loader";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import SearchBar from "../components/SearchBar/SearchBar";
+import Form from "react-bootstrap/Form";
 
 export default function MainPage() {
   const [posts, setPosts] = useState([]);
@@ -26,6 +27,42 @@ export default function MainPage() {
     }
   }
 
+  const sortHandler = (event) => {
+    const order = event.target.value;
+
+    let sortedPosts = [...posts];
+
+    if (order === "1") {
+      sortedPosts.sort((a, b) => {
+        if (a.title < b.title) {
+          return -1;
+        }
+
+        if (a.title > b.title) {
+          return 1;
+        }
+
+        return 0;
+      });
+    } 
+
+    if (order === "2") {
+      sortedPosts.sort((a, b) => {
+        if (a.title < b.title) {
+          return 1;
+        }
+
+        if (a.title > b.title) {
+          return -1;
+        }
+
+        return 0;
+      });
+    }
+
+    setPosts(sortedPosts);
+  };
+
   useEffect(() => {
     fetchPosts();
   }, []);
@@ -40,11 +77,19 @@ export default function MainPage() {
           <Col>
             <SearchBar value={searchValue} sendData={setSearchValue} />
           </Col>
-          <Col className="d-flex justify-content-end">
-            <NavDropdown title="Sort by title">
-              <NavDropdown.Item href="#action3">Ascending</NavDropdown.Item>
-              <NavDropdown.Item href="#action4">Descending</NavDropdown.Item>
-            </NavDropdown>
+          <Col className="d-flex justify-content-end align-items-center gap-2">
+            <label className="mb-0">Sort by title:</label>
+            <Form.Select
+              style={{ width: "40%" }}
+              defaultValue={0}
+              onChange={sortHandler}
+            >
+              <option value={0} disabled hidden>
+                Default
+              </option>
+              <option value={1}>Ascending</option>
+              <option value={2}>Descending</option>
+            </Form.Select>
           </Col>
         </Row>
         <Col>
