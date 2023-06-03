@@ -18,7 +18,7 @@ export default function Header() {
                 <Col className="d-flex align-items-center">
                   <Card.Img
                     variant="top"
-                    src="src/assets/user-profile-icon-free-vector.jpg"
+                    src="../../user-profile-icon-free-vector.jpg"
                     style={{
                       height: "32px",
                       width: "32px",

@@ -7,9 +7,13 @@ import SearchBar from "../components/SearchBar";
 import Form from "react-bootstrap/Form";
 import Pagination from "react-bootstrap/Pagination";
 import ErrorBoundary from "../components/ErrorBoundary";
+import { useDispatch, useSelector } from "react-redux";
+import { postsActions } from "../state/actions/postsActions";
 
 export default function MainPage() {
-  const [posts, setPosts] = useState([]);
+  const posts = useSelector((state) => state.posts.posts);
+  // const postsList = useSelector((state) => state.posts.posts);
+  // const [posts, setPosts] = useState(postsList);
   const [error, setError] = useState("");
   const [loader, setLoader] = useState(false);
   const [searchValue, setSearchValue] = useState("");
@@ -17,25 +21,52 @@ export default function MainPage() {
   const [totalPages, setTotalPages] = useState(0);
   const limit = 10;
 
+  const dispatch = useDispatch();
+
+  // async function fetchPosts() {
+  //   try {
+  //     setError("");
+  //     setLoader(true);
+  //     const response = await axios.get(
+  //       "https://jsonplaceholder.typicode.com/posts",
+  //       {
+  //         params: {
+  //           _page: page,
+  //           _limit: limit,
+  //         },
+  //       }
+  //     );
+
+  //     const countPages = Math.ceil(response.headers["x-total-count"] / limit);
+  //     setTotalPages(countPages);
+
+  //     setTimeout(() => {
+  // setPosts(response.data);
+  //     }, 500);
+  //     setLoader(false);
+  //   } catch (err) {
+  //     setLoader(false);
+  //     setError(err.message);
+  //   }
+  // }
+
   async function fetchPosts() {
     try {
       setError("");
+      console.log(loader);
       setLoader(true);
-      const response = await axios.get(
-        "https://jsonplaceholder.typicode.com/posts",
-        {
-          params: {
-            _page: page,
-            _limit: limit,
-          },
-        }
-      );
-
-      const countPages = Math.ceil(response.headers["x-total-count"] / limit);
-      setTotalPages(countPages);
-
+      console.log(loader)
+      // const countPages = Math.ceil(response.headers["x-total-count"] / limit);
+      // setTotalPages(countPages);
+      // const params = { _page: page, _limit: limit };
+      
       setTimeout(() => {
-        setPosts(response.data);
+        dispatch({
+          type: postsActions.SET_POSTS,
+          params: { _page: page, _limit: limit },
+        });
+        console.log(posts)
+        // setPosts(postsList);
       }, 500);
       setLoader(false);
     } catch (err) {
@@ -43,6 +74,14 @@ export default function MainPage() {
       setError(err.message);
     }
   }
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+  // useEffect(() => {
+  //   dispatch({ type: postsActions.SET_POSTS });
+  // }, []);
 
   const sortHandler = (event) => {
     const order = event.target.value;
@@ -76,12 +115,8 @@ export default function MainPage() {
       });
     }
 
-    setPosts(sortedPosts);
+    // setPosts(sortedPosts);
   };
-
-  useEffect(() => {
-    fetchPosts();
-  }, [page]);
 
   const pageIncerement = () => {
     if (page < totalPages) {

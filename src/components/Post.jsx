@@ -34,7 +34,7 @@ export default function Post({ post }) {
         <Link to={`/posts/${post.id}`}>
           <Card.Img
             variant="top"
-            src="src/assets/user-profile-icon-free-vector.jpg"
+            src="../../user-profile-icon-free-vector.jpg"
             className="Img"
           />
         </Link>
